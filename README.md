@@ -1,90 +1,60 @@
-# 🛡️ RETO XSS - Protección contra Vulnerabilidades en Aplicaciones Web
+# Reto XSS - Corrección de Vulnerabilidades en Aplicaciones Web
 
-Este proyecto consiste en una aplicación web desarrollada con Node.js, Express y EJS, la cual originalmente presentaba vulnerabilidades del tipo **XSS (Cross-site Scripting)**. Como parte del reto, se identificaron, probaron y corrigieron dichas vulnerabilidades, mejorando además el diseño de la interfaz.
+Este proyecto es parte de un reto en el que se trabajó con una aplicación web desarrollada con Node.js, Express y EJS. El objetivo fue detectar, probar y corregir vulnerabilidades del tipo XSS (Cross-site Scripting), así como mejorar la presentación visual de la aplicación.
 
----
+## Objetivo
 
-## 📌 Objetivo
+Identificar vulnerabilidades de tipo XSS en una aplicación web, demostrarlas mediante pruebas controladas, y posteriormente implementar medidas de seguridad para prevenir este tipo de ataques.
 
-Detectar, explotar y mitigar vulnerabilidades de tipo XSS (Stored y Reflected) en una aplicación web, garantizando mayor seguridad en el manejo de entradas y salidas de usuario.
+## Vulnerabilidades encontradas
 
----
+1. **Stored XSS**
+   - Ruta afectada: `/nuevo`
+   - El sistema permitía guardar scripts maliciosos dentro de los campos de comentario o autor, lo que se ejecutaba cada vez que otro usuario visualizaba la página.
 
-## ⚠️ Vulnerabilidades Detectadas
+2. **Reflected XSS**
+   - Ruta afectada: `/buscar?autor=`
+   - Se reflejaba directamente el valor del parámetro `autor` en la vista, lo que permitía ejecutar scripts al modificar la URL.
 
-### ✅ Stored XSS
-- Ruta: `/nuevo`
-- Problema: Permitía guardar contenido con scripts maliciosos en los campos `autor` o `comentario`.
+## Pruebas realizadas
 
-### ✅ Reflected XSS
-- Ruta: `/buscar?autor=`
-- Problema: El parámetro `autor` se reflejaba directamente en la vista sin sanitización, permitiendo ejecución de scripts.
+Se ingresaron scripts maliciosos como `<script>alert('XSS')</script>` tanto en comentarios como en los parámetros de búsqueda, confirmando que eran ejecutados por el navegador antes de aplicar las correcciones.
 
----
+## Soluciones aplicadas
 
-## 🧪 Pruebas Realizadas
+- Se utilizó la librería `xss` para limpiar cualquier entrada de texto que pudiera contener código malicioso.
+- Se aseguraron las consultas a la base de datos usando sentencias parametrizadas para evitar inyecciones.
+- Se revisaron y ajustaron las vistas EJS para que el contenido ingresado por los usuarios se escape correctamente antes de ser mostrado.
 
-- Ingreso de: `<script>alert('XSS')</script>` como comentario.
-- Modificación de la URL: `/buscar?autor=<script>alert('XSS')</script>`
-- Confirmación de ejecución de scripts en ambas rutas antes de implementar las soluciones.
+## Mejoras de diseño
 
----
+Además de mejorar la seguridad, se aprovechó para hacer algunos cambios visuales en la interfaz:
+- Estilos mejor organizados y más claros.
+- Validaciones en formularios para evitar el envío de campos vacíos.
+- Mensajes más claros al usuario cuando se realizan búsquedas o envíos de información.
 
-## 🛠️ Soluciones Implementadas
-
-### 🔒 Sanitización de Entrada
-- Uso de la librería [`xss`](https://www.npmjs.com/package/xss) para filtrar scripts en los campos de entrada.
-
-### 🧱 Consultas Parametrizadas
-- Se evitaron inyecciones SQL usando parámetros (`?`) en las consultas de base de datos.
-
-### 🔐 Escapado de Salidas en Vistas
-- Se verificó el uso de `<%= %>` en lugar de `<%- %>` para evitar ejecución de HTML en las vistas EJS.
-
----
-
-## 🎨 Mejoras de Diseño
-
-- Estilos modernizados con mejor distribución de los elementos.
-- Inclusión de íconos y estilos CSS más amigables.
-- Validación de campos vacíos antes de enviar formularios.
-- Mensajes de error y éxito más claros para el usuario.
-
----
-
-## 📦 Tecnologías Usadas
+## Tecnologías utilizadas
 
 - Node.js
 - Express.js
 - EJS
 - SQLite3
-- xss (sanitización)
+- xss (librería para sanitizar entradas)
 - CSS básico
 
----
+## Resultado final
 
-## ✅ Resultado
+Después de aplicar las soluciones, las vulnerabilidades XSS quedaron corregidas y la aplicación sigue funcionando de manera normal. Ya no es posible ejecutar scripts ni guardar código malicioso en los campos de entrada o en las búsquedas.
 
-- La aplicación mantiene su funcionalidad original.
-- Las entradas maliciosas ya no ejecutan scripts.
-- El diseño es más intuitivo y profesional.
-- Se eliminó por completo el riesgo de ataques XSS en las rutas probadas.
+## Autor
 
----
-
-## 👨‍💻 Autor
-
-**Everardo Padrón Castillo**  
-Matrícula: 21103  
+Everardo Padrón Castillo  
+Materia: Desarrollo Web Integral  
 Profesor: Dionisio Huerta Rosario  
-Materia: Desarrollo Web Integral
+Matrícula: 21103
 
----
+## Instrucciones para ejecutar el proyecto
 
-## 📁 Instalación
-
-```bash
-git clone https://github.com/Everskyo/RETO-XXS.git
-cd RETO-XXS
-npm install
-node app.js
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/Everskyo/RETO-XXS.git
